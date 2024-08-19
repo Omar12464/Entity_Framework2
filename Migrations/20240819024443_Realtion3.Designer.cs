@@ -4,6 +4,7 @@ using Entity_Framework2.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity_Framework2.Migrations
 {
     [DbContext(typeof(ITIdbContext))]
-    partial class ITIdbContextModelSnapshot : ModelSnapshot
+    [Migration("20240819024443_Realtion3")]
+    partial class Realtion3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,15 +43,10 @@ namespace Entity_Framework2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TopId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TopicId")
+                    b.Property<int>("TopId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TopicId");
 
                     b.ToTable("Course", "dbo");
                 });
@@ -187,8 +185,7 @@ namespace Entity_Framework2.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DepId")
-                        .IsRequired()
+                    b.Property<int>("DepId")
                         .HasColumnType("int");
 
                     b.Property<string>("Fname")
@@ -201,21 +198,9 @@ namespace Entity_Framework2.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar");
 
-                    b.Property<int?>("StudentID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentID");
-
                     b.ToTable("Student", "dbo");
-                });
-
-            modelBuilder.Entity("Entity_FrameWork2.Models.Course", b =>
-                {
-                    b.HasOne("Entity_FrameWork2.Models.Topic", null)
-                        .WithMany("courses")
-                        .HasForeignKey("TopicId");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Instructor", b =>
@@ -225,23 +210,9 @@ namespace Entity_Framework2.Migrations
                         .HasForeignKey("InsId");
                 });
 
-            modelBuilder.Entity("Entity_Framework2.Models.Student", b =>
-                {
-                    b.HasOne("Entity_FrameWork2.Models.Department", null)
-                        .WithMany("Student")
-                        .HasForeignKey("StudentID");
-                });
-
             modelBuilder.Entity("Entity_FrameWork2.Models.Department", b =>
                 {
-                    b.Navigation("Student");
-
                     b.Navigation("instructors");
-                });
-
-            modelBuilder.Entity("Entity_FrameWork2.Models.Topic", b =>
-                {
-                    b.Navigation("courses");
                 });
 #pragma warning restore 612, 618
         }

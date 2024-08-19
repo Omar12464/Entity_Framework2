@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity_FrameWork2.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace Entity_Framework2.Models
 {
     [Table("Student", Schema = "dbo")]
-    internal class Student
+    public class Student
     {
         #region Convention
         //public int? Id { get; set; }
@@ -39,7 +40,8 @@ namespace Entity_Framework2.Models
         public int? Age { get; set; }
         [Required]
         [ForeignKey(nameof(Age))]
-        public int DepId { get; set; }
+        public int? DepId { get; set; }
+
         #endregion
     }
 }

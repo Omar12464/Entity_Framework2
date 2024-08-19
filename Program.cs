@@ -12,22 +12,22 @@ namespace Entity_Framework2
             ITIdbContext dbContext = new ITIdbContext();
             #region CRUD Operations
             #region Student Table
-            Student st02 = new Student()
-            {
-                Fname = "Omar",
-                LName = "Ibra",
-                Age = 25,
-                Address = "Cairo",
-                DepId = 1,
-            };
-            Student st01 = new Student()
-            {
-                Fname = "Mido",
-                LName = "Ibra",
-                Age = 26,
-                Address = "Cairo",
-                DepId = 1,
-            };
+            //Student st02 = new Student()
+            //{
+            //    Fname = "Omar",
+            //    LName = "Ibra",
+            //    Age = 25,
+            //    Address = "Cairo",
+            //    DepId = 1,
+            //};
+            //Student st01 = new Student()
+            //{
+            //    Fname = "Mido",
+            //    LName = "Ibra",
+            //    Age = 26,
+            //    Address = "Cairo",
+            //    DepId = 1,
+            //};
             #endregion
             #region Department Table
             //Department D01 = new Department()
@@ -49,46 +49,46 @@ namespace Entity_Framework2
 
             #endregion
             #region Instructor
-            Instructor ins01 = new Instructor()
-            {
-                Name = "Mido",
-                Address = "Cairo",
-                Bonus = 50,
-                Salary = 5000,
-                HourRate = 38,
-                DepId = 1,
-            };
-            Instructor ins02 = new Instructor()
-            {
-                Name = "Omar",
-                Address = "Cairo",
-                Bonus = 50,
-                Salary = 5000,
-                HourRate = 38,
-                DepId = 1,
-            };
+            //Instructor ins01 = new Instructor()
+            //{
+            //    Name = "Mido",
+            //    Address = "Cairo",
+            //    Bonus = 50,
+            //    Salary = 5000,
+            //    HourRate = 38,
+            //    DepId = 1,
+            //};
+            //Instructor ins02 = new Instructor()
+            //{
+            //    Name = "Omar",
+            //    Address = "Cairo",
+            //    Bonus = 50,
+            //    Salary = 5000,
+            //    HourRate = 38,
+            //    DepId = 1,
+            //};
             #endregion
             #region Course
-            Course course01 = new Course()
-            {
-                Name = "CS",
-                Duration = 5,
-                Description = "BAD",
-                TopId = 1,
-            };
-            Course course02 = new Course()
-            {
-                Name = "DS",
-                Duration = 4,
-                Description = "BAD",
-                TopId = 2,
-            };
+            //Course course01 = new Course()
+            //{
+            //    Name = "CS",
+            //    Duration = 5,
+            //    Description = "BAD",
+            //    TopId = 1,
+            //};
+            //Course course02 = new Course()
+            //{
+            //    Name = "DS",
+            //    Duration = 4,
+            //    Description = "BAD",
+            //    TopId = 2,
+            //};
             #endregion
 
             #region Insert
             #region Student
             //Console.WriteLine(dbContext.Entry(st02).State);
-            dbContext.Student.Add(st02);
+            //dbContext.Student.Add(st02);
             //dbContext.SaveChanges();
             //Console.WriteLine(dbContext.Entry(st02).State);
             //dbContext.Student.Add(st01);
@@ -104,10 +104,10 @@ namespace Entity_Framework2
             //dbContext.SaveChanges();
             #endregion
             #region Course
-            dbContext.Course.Add(course01);
-            dbContext.SaveChanges();
-            dbContext.Course.Add(course02);
-            dbContext.SaveChanges();
+            //dbContext.Course.Add(course01);
+            //dbContext.SaveChanges();
+            //dbContext.Course.Add(course02);
+            //dbContext.SaveChanges();
 
 
             #endregion

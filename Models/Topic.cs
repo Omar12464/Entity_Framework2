@@ -15,6 +15,7 @@ namespace Entity_FrameWork2.Models
         #region By Convention
         public int Id { get; set; }
         public string Name { get; set; }
+        public ICollection<Course>? courses { get; set; }= new HashSet<Course>();
         #endregion
         #region Data Annotation
         //[Key]

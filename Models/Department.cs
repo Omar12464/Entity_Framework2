@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity_Framework2.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,15 +12,22 @@ namespace Entity_FrameWork2.Models
     [Table("Department", Schema = "dbo")]
     public class Department
     {
+        public Department() 
+        { 
+        }
         #region ByConvention
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public int InsId { get; set; }
+        public int? InsId { get; set; }
         public int HiringDate { get; set; }
         public int DateOfCreation { get; set; }
-        public List<Instructor> instructor { get; set; }
+
+        [ForeignKey(nameof(InsId))]
+        public ICollection<Instructor>? instructors { get; set; } = new HashSet<Instructor>();
+        [ForeignKey("StudentID")]
+        public ICollection<Student>? Student { get; set; }
 
         #endregion
         #region Data Annotations
