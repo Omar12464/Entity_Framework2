@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Entity_FrameWork2.Models
 {
     [Table("Department", Schema = "dbo")]
-    internal class Department
+    public class Department
     {
         #region ByConvention
         public int Id { get; set; }
@@ -19,6 +19,7 @@ namespace Entity_FrameWork2.Models
         public int InsId { get; set; }
         public int HiringDate { get; set; }
         public int DateOfCreation { get; set; }
+        public List<Instructor> instructor { get; set; }
 
         #endregion
         #region Data Annotations

@@ -1,4 +1,6 @@
-﻿using Entity_Framework2.Models;
+﻿using Entity_FrameWork_1.Configurations;
+using Entity_Framework2.Models;
+using Entity_FrameWork2.Configurations;
 using Entity_FrameWork2.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,10 +15,23 @@ namespace Entity_Framework2.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=LAPTOP-6FHT0HLA ; Database = SchoolC42 ; Trusted_Connection = True ; Encrypt=False ");
+            optionsBuilder.UseSqlServer("Server=LAPTOP-6FHT0HLA ; Database = ITIC42 ; Trusted_Connection = True ; Encrypt=False ");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseConfig());
+            modelBuilder.ApplyConfiguration(new Course_InstConfig());
+            modelBuilder.ApplyConfiguration(new StudentConfig());
+            modelBuilder.ApplyConfiguration(new InstructorConfig());
+            modelBuilder.ApplyConfiguration(new StudCrsConfig());
+            modelBuilder.ApplyConfiguration(new TopicConfig());
+
+
+
+
+
+
             #region Fluent APIs
             //modelBuilder.Entity<Student>(S =>
             //{
@@ -53,7 +68,7 @@ namespace Entity_Framework2.Context
             //modelBuilder.Entity<Course_Inst>(CI =>
             //{
             //    CI.HasNoKey();
-            //    CI.Property(ci=>ci.Evaluate).IsRequired();
+            //    CI.Property(ci => ci.Evaluate).IsRequired();
             //});
 
             //modelBuilder.Entity<Department>(E =>

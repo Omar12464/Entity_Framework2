@@ -16,6 +16,7 @@ namespace Entity_FrameWork_1.Configurations
             I.HasKey(i => i.Id);
             I.Property(i => i.Name).IsRequired().HasMaxLength(80).HasAnnotation("MinLegth", 20);
             I.Property(i => i.Bonus).HasColumnType("money");
+            I.Property(i => i.Salary).HasColumnType("int");
 
         }
     }
