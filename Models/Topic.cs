@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace Entity_FrameWork2.Models
 {
     [Table("Topic", Schema = "dbo")]
-    internal class Topic
+    public class Topic
     {
 
         #region By Convention
-        public int Id { get; set; }
+        public int Top_Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Course>? courses { get; set; }= new HashSet<Course>();
+        public ICollection<Course> courses { get; set; }=new HashSet<Course>();//Relation Many by convention
         #endregion
         #region Data Annotation
         //[Key]

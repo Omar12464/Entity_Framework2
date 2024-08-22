@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,16 +12,21 @@ namespace Entity_FrameWork2.Models
 {
     [Table("Course", Schema = "dbo")]//By Data Annotation
 
-    internal class Course
+    public class Course
     {
         #region By Convention
         public int? Id { get; set; }
         public int Duration { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
-        public int? TopId { get; set; }
 
-        #endregion
+        public int TopicId { get; set; }
+
+        public Topic topics { get; set; }//Relation One by convention
+
+        public ICollection<StudCourse> coursestudent { get; set; }=new HashSet<StudCourse>();
+        public ICollection<Course_Inst> CourseInstructor { get; set; } = new HashSet<Course_Inst>();
+
         #region Data Annotation
         //[Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -40,5 +46,7 @@ namespace Entity_FrameWork2.Models
         #region Fluent Api
 
         #endregion
+        #endregion
     }
 }
+

@@ -35,33 +35,36 @@ namespace Entity_Framework2.Context
                 S.Property(s => s.Fname).IsRequired().HasMaxLength(100).HasColumnType("varchar");
                 S.Property(s => s.LName).IsRequired().HasMaxLength(50).HasColumnType("varchar");
                 S.Property(s => s.Address).IsRequired().HasDefaultValue("Cairo");
+                S.HasMany(s => s.studentcourse).WithOne(s => s.Student);
             });
 
             modelBuilder.Entity<Topic>(T =>
             {
-                T.HasKey(t => t.Id);
+                T.HasKey(t => t.Top_Id);
                 T.Property(t => t.Name).IsRequired();
             });
             modelBuilder.Entity<Course>(C =>
             {
                 C.HasKey(c => c.Id);
+                C.HasMany(c=>c.coursestudent).WithOne(c => c.Course);
+                C.HasMany(c=>c.CourseInstructor).WithOne(c => c.course);
             });
+            //modelBuilder.Entity<Course>().HasOne(c => c.topics).WithMany(c => c.courses).HasForeignKey(c => c.TopicId);
             modelBuilder.Entity<Instructor>(I =>
             {
                 I.HasKey(i => i.Id);
                 I.Property(i => i.Name).IsRequired().HasMaxLength(80).HasAnnotation("MinLegth", 20);
                 I.Property(i => i.Bonus).HasColumnType("money");
+                I.HasMany(i=>i.InstructorCourse).WithOne(i=>i.Instructor);
             });
             modelBuilder.Entity<StudCourse>(SC =>
             {
-                SC.HasNoKey();
-                SC.Property(sc => sc.Grade).IsRequired();
+                SC.HasKey(sc => new {sc.StudId,sc.crsId});
 
             });
             modelBuilder.Entity<Course_Inst>(CI =>
             {
-                CI.HasNoKey();
-                CI.Property(ci => ci.Evaluate).IsRequired();
+                CI.HasKey(ci => new { ci.CrsId, ci.InstId });
             });
 
             modelBuilder.Entity<Department>(E =>
@@ -71,6 +74,8 @@ namespace Entity_Framework2.Context
                 E.Property(d => d.Id).UseIdentityColumn(10, 10);
                 E.Property(d => d.Name).IsRequired().HasColumnName("DeptName");
                 E.Property(d => d.DateOfCreation).HasComputedColumnSql("GETDATE()");
+                E.HasOne(d => d.Manager).WithOne(d => d.ManagedDepartment).HasForeignKey<Department>(d=>d.ManagerId);
+                E.HasMany(d => d.Instructors).WithOne(I => I.Department).HasForeignKey(d => d.DepartmentId);
             });
 
 

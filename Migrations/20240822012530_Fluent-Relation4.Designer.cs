@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity_Framework2.Migrations
 {
     [DbContext(typeof(ITIdbContext))]
-    [Migration("20240819024725_Realtion4")]
-    partial class Realtion4
+    [Migration("20240822012530_Fluent-Relation4")]
+    partial class FluentRelation4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,10 +43,7 @@ namespace Entity_Framework2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TopId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TopicId")
+                    b.Property<int>("TopicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -87,7 +84,7 @@ namespace Entity_Framework2.Migrations
                     b.Property<int>("HiringDate")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InsId")
+                    b.Property<int?>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -96,6 +93,10 @@ namespace Entity_Framework2.Migrations
                         .HasColumnName("DeptName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ManagerId")
+                        .IsUnique()
+                        .HasFilter("[ManagerId] IS NOT NULL");
 
                     b.ToTable("Deapartment", "dbo");
                 });
@@ -115,13 +116,13 @@ namespace Entity_Framework2.Migrations
                     b.Property<decimal>("Bonus")
                         .HasColumnType("money");
 
-                    b.Property<int?>("DeptId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<double>("HourRate")
                         .HasColumnType("float");
 
-                    b.Property<int?>("InsId")
+                    b.Property<int?>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -135,39 +136,43 @@ namespace Entity_Framework2.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsId");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Instructor", "dbo");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.StudCourse", b =>
                 {
-                    b.Property<string>("Grade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("StudId")
                         .HasColumnType("int");
 
                     b.Property<int>("crsId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Grade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StudId", "crsId");
+
+                    b.HasIndex("crsId");
+
                     b.ToTable("StudCourse", "dbo");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Topic", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Top_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Top_Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Top_Id");
 
                     b.ToTable("Topic", "dbo");
                 });
@@ -190,7 +195,7 @@ namespace Entity_Framework2.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("DepId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Fname")
@@ -205,31 +210,92 @@ namespace Entity_Framework2.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartmentId");
+
                     b.ToTable("Student", "dbo");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Course", b =>
                 {
-                    b.HasOne("Entity_FrameWork2.Models.Topic", null)
+                    b.HasOne("Entity_FrameWork2.Models.Topic", "topics")
                         .WithMany("courses")
-                        .HasForeignKey("TopicId");
-                });
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Entity_FrameWork2.Models.Instructor", b =>
-                {
-                    b.HasOne("Entity_FrameWork2.Models.Department", null)
-                        .WithMany("instructors")
-                        .HasForeignKey("InsId");
+                    b.Navigation("topics");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Department", b =>
                 {
-                    b.Navigation("instructors");
+                    b.HasOne("Entity_FrameWork2.Models.Instructor", "Manager")
+                        .WithOne("ManagedDepartment")
+                        .HasForeignKey("Entity_FrameWork2.Models.Department", "ManagerId");
+
+                    b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("Entity_FrameWork2.Models.Instructor", b =>
+                {
+                    b.HasOne("Entity_FrameWork2.Models.Department", "Department")
+                        .WithMany("Instructors")
+                        .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("Entity_FrameWork2.Models.StudCourse", b =>
+                {
+                    b.HasOne("Entity_Framework2.Models.Student", "Student")
+                        .WithMany("studentcourse")
+                        .HasForeignKey("StudId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entity_FrameWork2.Models.Course", "Course")
+                        .WithMany("coursestudent")
+                        .HasForeignKey("crsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Entity_Framework2.Models.Student", b =>
+                {
+                    b.HasOne("Entity_FrameWork2.Models.Department", null)
+                        .WithMany("students")
+                        .HasForeignKey("DepartmentId");
+                });
+
+            modelBuilder.Entity("Entity_FrameWork2.Models.Course", b =>
+                {
+                    b.Navigation("coursestudent");
+                });
+
+            modelBuilder.Entity("Entity_FrameWork2.Models.Department", b =>
+                {
+                    b.Navigation("Instructors");
+
+                    b.Navigation("students");
+                });
+
+            modelBuilder.Entity("Entity_FrameWork2.Models.Instructor", b =>
+                {
+                    b.Navigation("ManagedDepartment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Topic", b =>
                 {
                     b.Navigation("courses");
+                });
+
+            modelBuilder.Entity("Entity_Framework2.Models.Student", b =>
+                {
+                    b.Navigation("studentcourse");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity_Framework2.Migrations
 {
     [DbContext(typeof(ITIdbContext))]
-    [Migration("20240819025704_Realtion5")]
-    partial class Realtion5
+    [Migration("20240822001015_Fluent-Relation2")]
+    partial class FluentRelation2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,10 +43,7 @@ namespace Entity_Framework2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TopId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TopicId")
+                    b.Property<int>("TopicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -121,9 +118,6 @@ namespace Entity_Framework2.Migrations
                     b.Property<double>("HourRate")
                         .HasColumnType("float");
 
-                    b.Property<int?>("InsId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80)
@@ -134,8 +128,6 @@ namespace Entity_Framework2.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InsId");
 
                     b.ToTable("Instructor", "dbo");
                 });
@@ -157,17 +149,17 @@ namespace Entity_Framework2.Migrations
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Topic", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Top_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Top_Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Top_Id");
 
                     b.ToTable("Topic", "dbo");
                 });
@@ -190,8 +182,10 @@ namespace Entity_Framework2.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DepId")
-                        .IsRequired()
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeptId")
                         .HasColumnType("int");
 
                     b.Property<string>("Fname")
@@ -204,42 +198,34 @@ namespace Entity_Framework2.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar");
 
-                    b.Property<int?>("StudentID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentID");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Student", "dbo");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Course", b =>
                 {
-                    b.HasOne("Entity_FrameWork2.Models.Topic", null)
+                    b.HasOne("Entity_FrameWork2.Models.Topic", "topics")
                         .WithMany("courses")
-                        .HasForeignKey("TopicId");
-                });
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Entity_FrameWork2.Models.Instructor", b =>
-                {
-                    b.HasOne("Entity_FrameWork2.Models.Department", null)
-                        .WithMany("instructors")
-                        .HasForeignKey("InsId");
+                    b.Navigation("topics");
                 });
 
             modelBuilder.Entity("Entity_Framework2.Models.Student", b =>
                 {
                     b.HasOne("Entity_FrameWork2.Models.Department", null)
-                        .WithMany("Student")
-                        .HasForeignKey("StudentID");
+                        .WithMany("students")
+                        .HasForeignKey("DepartmentId");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Department", b =>
                 {
-                    b.Navigation("Student");
-
-                    b.Navigation("instructors");
+                    b.Navigation("students");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Topic", b =>

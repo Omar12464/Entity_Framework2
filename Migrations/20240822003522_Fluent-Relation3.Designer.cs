@@ -4,6 +4,7 @@ using Entity_Framework2.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity_Framework2.Migrations
 {
     [DbContext(typeof(ITIdbContext))]
-    partial class ITIdbContextModelSnapshot : ModelSnapshot
+    [Migration("20240822003522_Fluent-Relation3")]
+    partial class FluentRelation3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,16 +58,12 @@ namespace Entity_Framework2.Migrations
                     b.Property<int>("CrsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("InstId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Evaluate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CrsId", "InstId");
-
-                    b.HasIndex("InstId");
+                    b.Property<int>("InstId")
+                        .HasColumnType("int");
 
                     b.ToTable("Course_Inst", "dbo");
                 });
@@ -144,19 +143,15 @@ namespace Entity_Framework2.Migrations
 
             modelBuilder.Entity("Entity_FrameWork2.Models.StudCourse", b =>
                 {
+                    b.Property<string>("Grade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("StudId")
                         .HasColumnType("int");
 
                     b.Property<int>("crsId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Grade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("StudId", "crsId");
-
-                    b.HasIndex("crsId");
 
                     b.ToTable("StudCourse", "dbo");
                 });
@@ -227,25 +222,6 @@ namespace Entity_Framework2.Migrations
                     b.Navigation("topics");
                 });
 
-            modelBuilder.Entity("Entity_FrameWork2.Models.Course_Inst", b =>
-                {
-                    b.HasOne("Entity_FrameWork2.Models.Course", "course")
-                        .WithMany("CourseInstructor")
-                        .HasForeignKey("CrsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entity_FrameWork2.Models.Instructor", "Instructor")
-                        .WithMany("InstructorCourse")
-                        .HasForeignKey("InstId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Instructor");
-
-                    b.Navigation("course");
-                });
-
             modelBuilder.Entity("Entity_FrameWork2.Models.Department", b =>
                 {
                     b.HasOne("Entity_FrameWork2.Models.Instructor", "Manager")
@@ -264,37 +240,11 @@ namespace Entity_Framework2.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("Entity_FrameWork2.Models.StudCourse", b =>
-                {
-                    b.HasOne("Entity_Framework2.Models.Student", "Student")
-                        .WithMany("studentcourse")
-                        .HasForeignKey("StudId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entity_FrameWork2.Models.Course", "Course")
-                        .WithMany("coursestudent")
-                        .HasForeignKey("crsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("Entity_Framework2.Models.Student", b =>
                 {
                     b.HasOne("Entity_FrameWork2.Models.Department", null)
                         .WithMany("students")
                         .HasForeignKey("DepartmentId");
-                });
-
-            modelBuilder.Entity("Entity_FrameWork2.Models.Course", b =>
-                {
-                    b.Navigation("CourseInstructor");
-
-                    b.Navigation("coursestudent");
                 });
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Department", b =>
@@ -306,8 +256,6 @@ namespace Entity_Framework2.Migrations
 
             modelBuilder.Entity("Entity_FrameWork2.Models.Instructor", b =>
                 {
-                    b.Navigation("InstructorCourse");
-
                     b.Navigation("ManagedDepartment")
                         .IsRequired();
                 });
@@ -315,11 +263,6 @@ namespace Entity_Framework2.Migrations
             modelBuilder.Entity("Entity_FrameWork2.Models.Topic", b =>
                 {
                     b.Navigation("courses");
-                });
-
-            modelBuilder.Entity("Entity_Framework2.Models.Student", b =>
-                {
-                    b.Navigation("studentcourse");
                 });
 #pragma warning restore 612, 618
         }
