@@ -156,6 +156,24 @@ namespace Entity_Framework2
             #endregion
             #endregion
             #endregion
+            #region Explicit Loading
+            ////var instructors=(from I in dbContext.Instructor
+            ////                where I.Id==3
+            ////                select I).FirstOrDefault();
+            ////Console.WriteLine(instructors.Name);
+            ////Console.WriteLine(instructors.Department?.Name??"n/A");
+
+            //var department=(from D in dbContext.Department
+            //               where D.Id==10
+            //               select D).FirstOrDefault();
+            //Console.WriteLine(department.Name);
+            ////foreach(var item in department.Instructors)
+            ////{
+            ////    Console.WriteLine(item.Name);
+            ////} 
+            #endregion
+
+
         }
     }
 }
