@@ -1,4 +1,5 @@
-﻿using Entity_Framework2.Models;
+﻿using Entity_Framework2.Inheritance;
+using Entity_Framework2.Models;
 using Entity_FrameWork2.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -78,6 +79,8 @@ namespace Entity_Framework2.Context
                 E.HasMany(d => d.Instructors).WithOne(I => I.Department).HasForeignKey(d => d.DepartmentId);
             });
 
+            modelBuilder.Entity<FullTime>().Property(F => F.Salary).HasColumnType("decimal(18,3)");
+            modelBuilder.Entity<Parttime>().Property(P => P.HourRate).HasColumnType("decimal(18,3)");
 
             #endregion
 
@@ -92,6 +95,9 @@ namespace Entity_Framework2.Context
         public DbSet<Department> Department { get; set; }
         public DbSet<StudCourse> StudCourse { get; set; }
         public DbSet<Course_Inst> Course_Inst { get; set; }
+        public DbSet<FullTime> FullTime { get; set; }
+        public DbSet<Parttime> PartTime { get; set; }
+
         #endregion
 
     }
