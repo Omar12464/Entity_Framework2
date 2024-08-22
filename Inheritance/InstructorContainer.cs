@@ -11,9 +11,9 @@ namespace Entity_Framework2.Inheritance
         public int? Id { get; set; }
         public string Name { get; set; }
         public int Bonus { get; set; }
-        public double Salary { get; set; }
+        //public double Salary { get; set; }
         public string Address { get; set; }
-        public double HourRate { get; set; }
+        //public double HourRate { get; set; }
         public int? ManagerId { get; set; }
     }
 }

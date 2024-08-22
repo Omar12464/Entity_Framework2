@@ -81,6 +81,8 @@ namespace Entity_Framework2.Context
 
             modelBuilder.Entity<FullTime>().Property(F => F.Salary).HasColumnType("decimal(18,3)");
             modelBuilder.Entity<Parttime>().Property(P => P.HourRate).HasColumnType("decimal(18,3)");
+            modelBuilder.Entity<FullTime>().HasBaseType<InstructorContainer>(); modelBuilder.Entity<Parttime>().HasBaseType<InstructorContainer>();
+
 
             #endregion
 
