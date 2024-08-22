@@ -15,7 +15,21 @@ namespace Entity_FrameWork2.Models
         public double Salary { get; set; }
         public string Address { get; set; }
         public double HourRate { get; set; }
-        public int? DeptId { get; set; }
+        public int? ManagerId { get; set; }
+        //[ForeignKey(nameof(ManagerId))]
+        //[InverseProperty("Manager")]
+        public Department ManagedDepartment { get; set; }
+
+        // Foreign key for the department where the instructor works
+        public int? DepartmentId { get; set; }
+        //[ForeignKey(nameof(DepartmentId))]
+        //[InverseProperty("Instructors")]
+        public Department Department { get; set; }
+
+        public ICollection<Course_Inst> InstructorCourse { get; set; }=new HashSet<Course_Inst>();
+
+
+
 
         #endregion
 

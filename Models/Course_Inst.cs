@@ -9,11 +9,16 @@ using System.Threading.Tasks;
 namespace Entity_FrameWork2.Models
 {
     [Table("Course_Inst", Schema = "dbo")]
-    internal class Course_Inst
+    public class Course_Inst
     {
         public int CrsId { get; set; }
         public int InstId { get; set; }
         public string Evaluate { get; set; }
+        [ForeignKey(nameof(InstId))]
+        public Instructor Instructor { get; set; }
+        [ForeignKey(nameof(CrsId))]
+
+        public Course course { get; set; }
 
     }
 }

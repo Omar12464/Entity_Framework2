@@ -156,6 +156,36 @@ namespace Entity_Framework2
             #endregion
             #endregion
             #endregion
+            #region Explicit Loading
+            ////var instructors=(from I in dbContext.Instructor
+            ////                where I.Id==3
+            ////                select I).FirstOrDefault();
+            ////Console.WriteLine(instructors.Name);
+            ////Console.WriteLine(instructors.Department?.Name??"n/A");
+
+            //var department=(from D in dbContext.Department
+            //               where D.Id==10
+            //               select D).FirstOrDefault();
+            //Console.WriteLine(department.Name);
+            ////foreach(var item in department.Instructors)
+            ////{
+            ////    Console.WriteLine(item.Name);
+            ////} 
+            ///
+            //var course=(from c in dbContext.Course
+            //           where c.Id ==1
+            //           select c).FirstOrDefault();
+            //dbContext.Entry(course).Reference(c=>c.topics).Load();
+
+            #endregion
+            #region Eager Loading
+            //var student=(from S in dbContext.Student.Include(s=>s.studentcourse)
+            //            where S.Id ==1
+            //            select S).FirstOrDefault();
+            //Console.WriteLine(student.LName);
+            //Console.WriteLine(student.studentcourse.Grade);
+            #endregion
+
         }
     }
 }

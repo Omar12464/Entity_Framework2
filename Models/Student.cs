@@ -38,9 +38,8 @@ namespace Entity_Framework2.Models
         public string Address { get; set; }
 
         public int? Age { get; set; }
-        [Required]
-        [ForeignKey(nameof(Age))]
-        public int? DepId { get; set; }
+        public ICollection<StudCourse> studentcourse { get; set; } = new HashSet<StudCourse>();
+
 
         #endregion
     }
