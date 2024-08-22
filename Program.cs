@@ -171,8 +171,20 @@ namespace Entity_Framework2
             ////{
             ////    Console.WriteLine(item.Name);
             ////} 
-            #endregion
+            ///
+            //var course=(from c in dbContext.Course
+            //           where c.Id ==1
+            //           select c).FirstOrDefault();
+            //dbContext.Entry(course).Reference(c=>c.topics).Load();
 
+            #endregion
+            #region Eager Loading
+            //var student=(from S in dbContext.Student.Include(s=>s.studentcourse)
+            //            where S.Id ==1
+            //            select S).FirstOrDefault();
+            //Console.WriteLine(student.LName);
+            //Console.WriteLine(student.studentcourse.Grade);
+            #endregion
 
         }
     }
